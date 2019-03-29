@@ -85,8 +85,13 @@ else:
 
 
 
+##read top file
+datafile = 'SN2005hk.json'
+data = pd.read_json(datafile)
+data = data['SN2005hk']
 
 ### photometry
+
 photometry = pd.read_json(pd.DataFrame(data['photometry']).to_json(),orient='column')
 print(photometry.columns)
 photometry.rename(columns={x: x.encode('ascii') for x in photometry.columns})
