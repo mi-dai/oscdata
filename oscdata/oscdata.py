@@ -24,6 +24,7 @@ class OSCData():
         self.photometry['MJD'] = photometry['time']
         self.photometry['Survey'] = photometry['telescope']
         self.photometry['Name'] = name
+        #comment
 
 
 
