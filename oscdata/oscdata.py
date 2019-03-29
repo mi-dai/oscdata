@@ -14,7 +14,7 @@ class OSCData():
 
 
     def get_photometry(self):
-        print self.data.keys()
+        print(self.data.keys())
         photometry = pd.read_json(pd.DataFrame(self.data['photometry']).to_json(),orient='column')
         photometry.rename(columns={x: x.encode('ascii') for x in photometry.columns})
         photometry = Table.from_pandas(photometry)    
