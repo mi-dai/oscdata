@@ -2,16 +2,17 @@
 import pandas as pd
 
 class OSCData():
-    def __init__(self, filename):
+    def __init__(self, filename, name):
         data = pd.read_json(filename)
-        self.name = filename.split('.json')[0]
+        self.name = name
         self.data = data[self.name]
         
 
-
     def get_metadata(self):
-        pass
-
+        keys = self.data.keys()
+        for key in keys:
+            data_k = pd.read_json(pd.DataFrame(self.data[key]).to_json(),orient='column')
+            print(data_k)
 
     def get_photometry(self):
         print(self.data.keys())
