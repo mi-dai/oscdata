@@ -1,9 +1,11 @@
 #osc data to pandas df
+import pandas as pd
 
 class OSCData():
     def __init__(self, filename):
-    	self.data = pd.read_json(filename)
-    	self.name = filename.split(['.json'])
+        data = pd.read_json(filename)
+        self.name = filename.split('.json')[0]
+        self.data = data[self.name]
         
 
 
@@ -12,18 +14,16 @@ class OSCData():
 
 
     def get_photometry(self):
-
-    	photometry = pd.read_json(pd.DataFrame(data['photometry']).to_json(),orient='column')
-		print(photometry.columns)
-		photometry.rename(columns={x: x.encode('ascii') for x in photometry.columns})
-		photometry = Table.from_pandas(photometry)    
-		photometry['Filter'] = photometry['band']
-		photometry['Mag'] = photometry['magnitude']
-		photometry['MagErr'] = photometry['e_magnitude']
-		photometry['MJD'] = photometry['time']
-		photometry['Survey'] = photometry['telescope']
-
-        pass
+        print self.data.keys()
+        photometry = pd.read_json(pd.DataFrame(self.data['photometry']).to_json(),orient='column')
+        photometry.rename(columns={x: x.encode('ascii') for x in photometry.columns})
+        photometry = Table.from_pandas(photometry)    
+        self.photometry['Filter'] = photometry['band']
+        self.photometry['Mag'] = photometry['magnitude']
+        self.photometry['MagErr'] = photometry['e_magnitude']
+        self.photometry['MJD'] = photometry['time']
+        self.photometry['Survey'] = photometry['telescope']
+        self.photometry['Name'] = name
 
 
 
