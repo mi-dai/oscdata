@@ -10,9 +10,16 @@ class OSCData():
 
     def get_metadata(self):
         keys = self.data.keys()
-        for key in keys:
+        metakeys = ['redshift','ra','dec','host']
+        for key in metakeys:
             data_k = pd.read_json(pd.DataFrame(self.data[key]).to_json(),orient='column')
+            data_k['source'] = data_k['source'].apply(seperate_values)
+            data_k['Name'] = self.name
+            s = data_k['source'].apply(pd.Series).stack().reset_index(level=-1,drop=True)
+            s.name = 'source2'
+            data_k = data_k.merge(s.to_frame(),left_index=True,right_index=True)
             print(data_k)
+            
 
     def get_photometry(self):
         print(self.data.keys())
@@ -31,3 +38,9 @@ class OSCData():
 
     def get_spectra(self):
         pass
+
+
+
+def seperate_values(value):
+    value = str(value)
+    return(value.split(','))
